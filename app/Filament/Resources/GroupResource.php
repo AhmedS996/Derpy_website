@@ -8,10 +8,15 @@ use App\Models\Group;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class GroupResource extends Resource
 {
@@ -64,22 +69,27 @@ class GroupResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                 ->searchable(),
+                Tables\Columns\ImageColumn::make('group_image')
+                ->circular(),
                 Tables\Columns\TextColumn::make('admin_id')
-                ->searchable(),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('group_id')
+                ->toggleable(isToggledHiddenByDefault: true)
                 ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                ->weight(FontWeight::Bold)
                 ->searchable(),
                 Tables\Columns\TextColumn::make('description')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('group_image')
+                ->limit(50)
                 ->searchable(),
                 Tables\Columns\TextColumn::make('catagory')
                 ->searchable(),
                 Tables\Columns\TextColumn::make('location')
+                ->icon('heroicon-m-map')
                 ->searchable(),
-                Tables\Columns\TextColumn::make('access_modifier')
-                ->searchable(),
+                Tables\Columns\IconColumn::make('access_modifier')
+                ->boolean(),
                 Tables\Columns\TextColumn::make('members')
                 ->searchable(),
                 Tables\Columns\TextColumn::make('events')

@@ -8,6 +8,7 @@ use App\Models\Event;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -71,13 +72,18 @@ class EventResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('event_id')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('admin_id')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->weight(FontWeight::Bold)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
+                    ->limit(50)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category')
                     ->searchable(),
@@ -87,6 +93,7 @@ class EventResource extends Resource
                 Tables\Columns\TextColumn::make('time_start'),
                 Tables\Columns\TextColumn::make('time_end'),
                 Tables\Columns\TextColumn::make('location')
+                    ->icon('heroicon-m-map')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('members')
                     ->numeric()

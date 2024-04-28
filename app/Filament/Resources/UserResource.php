@@ -8,11 +8,13 @@ use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
 
 class UserResource extends Resource
 {
@@ -24,10 +26,18 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = 'System';
 
+    protected static ?string $slug = 'admins';
+
+    protected static ?string $label = 'Admins';
+
     public static function getNavigationBadge(): string
     {
         return static::getModel()::count();
     }
+
+
+
+
 
 
     public static function form(Form $form): Form
@@ -54,8 +64,10 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->weight(FontWeight::Bold)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->icon('heroicon-m-envelope')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
