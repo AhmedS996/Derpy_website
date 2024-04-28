@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('user_name');
             $table->string('name');
             $table->string('phone_number')->nullable();
-            $table->text('profile_image')->nullable();
+            $table->string('profile_image')->nullable();
             $table->json('events')->nullable();
             $table->json('groups')->nullable();
             $table->string('dob')->nullable();

@@ -8,10 +8,13 @@ use App\Models\App;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Columns\ImageColumn;
+use Illuminate\Contracts\View\View;
 
 class AppResource extends Resource
 {
@@ -22,6 +25,11 @@ class AppResource extends Resource
     protected static ?string $navigationLabel = 'Users';
 
     protected static ?string $navigationGroup = 'Application';
+
+    protected static ?string $slug = 'users';
+
+    protected static ?string $label = 'users';
+
 
     public static function getNavigationBadge(): string
     {
@@ -42,8 +50,8 @@ class AppResource extends Resource
                     ->tel()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('profile_image')
-                    ->columnSpanFull(),
+                Forms\Components\FileUpload::make('profile_image')
+                    ->image(),
                 Forms\Components\TextInput::make('events'),
                 Forms\Components\TextInput::make('groups'),
                 Forms\Components\TextInput::make('dob')
@@ -57,19 +65,25 @@ class AppResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->searchable(),
+                Tables\Columns\ImageColumn::make('profile_image')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('user_name')
+                    ->weight(FontWeight::Bold)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->weight(FontWeight::Bold)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone_number')
-                    ->searchable(),
-                    Tables\Columns\TextColumn::make('profile_image')
+                    ->icon('heroicon-m-phone')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('dob')
+                    ->icon('heroicon-m-calendar')
                     ->searchable(),
                     Tables\Columns\TextColumn::make('events')
+                    ->limit(40)
                     ->searchable(),
                     Tables\Columns\TextColumn::make('groups')
+                    ->limit(40)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

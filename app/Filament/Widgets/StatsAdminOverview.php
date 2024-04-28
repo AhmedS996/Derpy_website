@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Filament\Widgets;
 
 use App\Models\App;
@@ -12,39 +11,37 @@ class StatsAdminOverview extends BaseWidget
 {
     protected function getStats(): array
     {
-        // Retrieve counts and creation dates for events, groups, and app users
-        $eventsCount = Event::count();
-        $groupsCount = Group::count();
-        $appUsersCount = App::count();
+        // Retrieve counts for events, groups, and app users for this week
+        $eventsThisWeekCount = Event::whereBetween('created_at', [now()->startOfWeek(), now()])->count();
+        $groupsThisWeekCount = Group::whereBetween('created_at', [now()->startOfWeek(), now()])->count();
+        $appUsersThisWeekCount = App::whereBetween('created_at', [now()->startOfWeek(), now()])->count();
 
-        // Calculate statistics based on creation dates
-        $eventsLastWeekCount = Event::where('created_at', '>=', now()->subWeek())->count();
-        $groupsLastWeekCount = Group::where('created_at', '>=', now()->subWeek())->count();
-        $appUsersLastWeekCount = App::where('created_at', '>=', now()->subWeek())->count();
+        // Retrieve counts for events, groups, and app users for last week
+        $eventsLastWeekCount = Event::whereBetween('created_at', [now()->startOfWeek()->subWeek(), now()->startOfWeek()])->count();
+        $groupsLastWeekCount = Group::whereBetween('created_at', [now()->startOfWeek()->subWeek(), now()->startOfWeek()])->count();
+        $appUsersLastWeekCount = App::whereBetween('created_at', [now()->startOfWeek()->subWeek(), now()->startOfWeek()])->count();
 
         // Calculate percentage changes
-        $eventsPercentageChange = $eventsLastWeekCount > 0 ? (($eventsLastWeekCount - $eventsCount) / $eventsLastWeekCount) * 100 : 0;
-        $groupsPercentageChange = $groupsLastWeekCount > 0 ? (($groupsLastWeekCount - $groupsCount) / $groupsLastWeekCount) * 100 : 0;
-        $appUsersPercentageChange = $appUsersLastWeekCount > 0 ? (($appUsersLastWeekCount - $appUsersCount) / $appUsersLastWeekCount) * 100 : 0;
+        $eventsPercentageChange = $eventsLastWeekCount > 0 ? (($eventsThisWeekCount - $eventsLastWeekCount) / $eventsLastWeekCount) * 100 : 0;
+        $groupsPercentageChange = $groupsLastWeekCount > 0 ? (($groupsThisWeekCount - $groupsLastWeekCount) / $groupsLastWeekCount) * 100 : 0;
+        $appUsersPercentageChange = $appUsersLastWeekCount > 0 ? (($appUsersThisWeekCount - $appUsersLastWeekCount) / $appUsersLastWeekCount) * 100 : 0;
 
         return [
-            Stat::make('New users last week', $appUsersLastWeekCount)
+            Stat::make('New users this week', $appUsersThisWeekCount)
                 ->description($appUsersPercentageChange . '% ' . ($appUsersPercentageChange >= 0 ? 'increase' : 'decrease'))
                 ->descriptionIcon($appUsersPercentageChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($appUsersPercentageChange >= 0 ? 'success' : 'danger'),
 
-            Stat::make('New events last week', $eventsLastWeekCount)
+            Stat::make('New events this week', $eventsThisWeekCount)
                 ->description($eventsPercentageChange . '% ' . ($eventsPercentageChange >= 0 ? 'increase' : 'decrease'))
                 ->descriptionIcon($eventsPercentageChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($eventsPercentageChange >= 0 ? 'success' : 'danger'),
 
-            Stat::make('New groups last week', $groupsLastWeekCount)
+            Stat::make('New groups this week', $groupsThisWeekCount)
                 ->description($groupsPercentageChange . '% ' . ($groupsPercentageChange >= 0 ? 'increase' : 'decrease'))
                 ->descriptionIcon($groupsPercentageChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($groupsPercentageChange >= 0 ? 'success' : 'danger'),
-
-
         ];
-
     }
 }
+

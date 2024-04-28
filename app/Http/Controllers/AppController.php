@@ -33,14 +33,18 @@ class AppController extends Controller
             // Process the data as needed
 
             // Store the data into the database
-            foreach ($data as $eventData) {
+            foreach ($data as $userData) {
                 // Convert members and events data to JSON format
-                $eventData['groups'] = json_encode($eventData['groups']);
-                $eventData['events'] = json_encode($eventData['events']);
+                $userData['groups'] = json_encode($userData['groups']);
+                $userData['events'] = json_encode($userData['events']);
+
+                if(isset($userData['profile_image'])){
+                    $userData['profile_image'] =  env('API_STORAGE') . $userData['profile_image'];
+                }
 
                 App::updateOrCreate(
-                    ['id' => $eventData['id']],
-                    $eventData
+                    ['id' => $userData['id']],
+                    $userData
                 );
             }
 
