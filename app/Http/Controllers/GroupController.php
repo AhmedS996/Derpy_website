@@ -33,14 +33,16 @@ class GroupController extends Controller
         // Process the data as needed
 
         // Store the data into the database
-        foreach ($data as $eventData) {
+        foreach ($data as $groupData) {
             // Convert members and events data to JSON format
-            $eventData['members'] = json_encode($eventData['members']);
-            $eventData['events'] = json_encode($eventData['events']);
+            $groupData['members'] = json_encode($groupData['members']);
+            $groupData['events'] = json_encode($groupData['events']);
+
+            $groupData['group_image'] =  env('API_STORAGE') . $groupData['group_image'];
 
             Group::updateOrCreate(
-                ['group_id' => $eventData['group_id']],
-                $eventData
+                ['group_id' => $groupData['group_id']],
+                $groupData
             );
         }
 
