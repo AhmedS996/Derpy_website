@@ -40,7 +40,7 @@ public function index()
         foreach ($data as $eventData) {
             // $eventData['event_image'] =  env('API_STORAGE') . $eventData['event_image'];
             Event::updateOrCreate(
-                ['id' => $eventData['id']], // Assuming 'id' is the primary key
+                ['event_id' => $eventData['event_id']], // Assuming 'id' is the primary key
                 $eventData
             );
         }
