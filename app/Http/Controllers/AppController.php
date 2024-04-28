@@ -42,8 +42,9 @@ class AppController extends Controller
                     $userData['profile_image'] =  env('API_STORAGE') . $userData['profile_image'];
                 }
 
+
                 App::updateOrCreate(
-                    ['id' => $userData['id']],
+                    ['user_name' => $userData['user_name']],
                     $userData
                 );
             }
