@@ -38,13 +38,15 @@ class EventResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('admin_id')
                     ->required(),
+                Forms\Components\TextInput::make('event_avatar')
+                    ->required(),
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('description')
                     ->required(),
                 Forms\Components\TextInput::make('category')
                     ->required(),
-                Forms\Components\DatePicker::make('date')
+                Forms\Components\TextInput::make('date')
                     ->required(),
                 Forms\Components\TextInput::make('time_start')
                     ->required(),
@@ -73,6 +75,8 @@ class EventResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\ImageColumn::make('event_avatar')
+                ->circular(),
                 Tables\Columns\TextColumn::make('event_id')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
@@ -88,7 +92,6 @@ class EventResource extends Resource
                 Tables\Columns\TextColumn::make('category')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date')
-                    ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('time_start'),
                 Tables\Columns\TextColumn::make('time_end'),

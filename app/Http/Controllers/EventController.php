@@ -38,7 +38,8 @@ public function index()
 
         // Store the data into the database
         foreach ($data as $eventData) {
-            // $eventData['event_image'] =  env('API_STORAGE') . $eventData['event_image'];
+            $eventData['members'] = json_encode($eventData['members']);
+            $eventData['event_avatar'] =  env('API_STORAGE') . $eventData['event_avatar'];
             Event::updateOrCreate(
                 ['event_id' => $eventData['event_id']], // Assuming 'id' is the primary key
                 $eventData
