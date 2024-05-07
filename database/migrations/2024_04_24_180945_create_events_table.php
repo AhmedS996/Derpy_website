@@ -17,18 +17,19 @@ return new class extends Migration
             $table->string('admin_id');
 
             $table->string('name');
+            $table->text('event_avatar')->nullable();
             $table->string('description');
             $table->string('category');
 
-            $table->date('date');
-            $table->time('time_start');
-            $table->time('time_end');
+            $table->string('date');
+            $table->string('time_start');
+            $table->string('time_end');
 
             $table->string('location');
-            $table->integer('members')->nullable();
+            $table->json('members')->nullable();
             $table->integer('number_of_members');
 
-            $table->float('price');
+            $table->string('price');
             $table->boolean('cancel_event');
             $table->timestamps();
         });
