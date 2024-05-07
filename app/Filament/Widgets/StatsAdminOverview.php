@@ -28,19 +28,21 @@ class StatsAdminOverview extends BaseWidget
 
         return [
             Stat::make('New users this week', $appUsersThisWeekCount)
-                ->description($appUsersPercentageChange . '% ' . ($appUsersPercentageChange >= 0 ? 'increase' : 'decrease'))
+                ->description($appUsersPercentageChange . '% ' . ($appUsersPercentageChange >= 0 ? 'increase' : 'decrease') . ' Last Week ('. $appUsersLastWeekCount. ')')
                 ->descriptionIcon($appUsersPercentageChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($appUsersPercentageChange >= 0 ? 'success' : 'danger'),
 
             Stat::make('New events this week', $eventsThisWeekCount)
-                ->description($eventsPercentageChange . '% ' . ($eventsPercentageChange >= 0 ? 'increase' : 'decrease'))
+                ->description($eventsPercentageChange . '% ' . ($eventsPercentageChange >= 0 ? 'increase' : 'decrease') . ' Last Week ('. $eventsLastWeekCount. ')')
                 ->descriptionIcon($eventsPercentageChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($eventsPercentageChange >= 0 ? 'success' : 'danger'),
 
             Stat::make('New groups this week', $groupsThisWeekCount)
-                ->description($groupsPercentageChange . '% ' . ($groupsPercentageChange >= 0 ? 'increase' : 'decrease'))
+                ->description($groupsPercentageChange . '% ' . ($groupsPercentageChange >= 0 ? 'increase' : 'decrease') . ' Last Week ('. $groupsLastWeekCount. ')')
                 ->descriptionIcon($groupsPercentageChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($groupsPercentageChange >= 0 ? 'success' : 'danger'),
+
+
         ];
     }
 }
