@@ -34,17 +34,19 @@ public function index()
 
         $data = json_decode($response->getBody(), true);
 
-        // Process the data as needed
 
         // Store the data into the database
         foreach ($data as $eventData) {
             $eventData['members'] = json_encode($eventData['members']);
             $eventData['event_avatar'] =  env('API_STORAGE') . $eventData['event_avatar'];
+
             Event::updateOrCreate(
-                ['event_id' => $eventData['event_id']], // Assuming 'id' is the primary key
+                ['event_id' => $eventData['event_id']],
                 $eventData
             );
         }
+
+
 
         // Returning only the IDs as JSON response with HTTP status 200
         return response()->json($data);
