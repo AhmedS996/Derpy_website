@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('description');
             $table->text('group_image')->nullable();
 
-            $table->string('catagory')->nullable();
+            $table->string('category')->nullable();
             $table->string('location');
             $table->boolean('access_modifier');
 

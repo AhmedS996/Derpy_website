@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->text('event_avatar')->nullable();
-            $table->string('description');
+            $table->text('description',1000);
             $table->string('category');
 
             $table->string('date');
