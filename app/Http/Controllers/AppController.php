@@ -43,11 +43,6 @@ class AppController extends Controller
                 }
 
 
-                App::updateOrCreate(
-                    ['user_name' => $userData['user_name']],
-                    $userData
-                );
-
                 if(!isset($userData['user_name'])){
                     App::creating(
                         ['user_name' => $userData['user_name']],
