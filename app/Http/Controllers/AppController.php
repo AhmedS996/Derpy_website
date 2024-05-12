@@ -47,6 +47,32 @@ class AppController extends Controller
                     ['user_name' => $userData['user_name']],
                     $userData
                 );
+
+                if(!isset($userData['user_name'])){
+                    App::creating(
+                        ['user_name' => $userData['user_name']],
+                        $userData
+                    );
+
+                }
+                else if(isset($userData['user_name'])){
+                    App::updating(
+                        ['user_name' => $userData['user_name']],
+                        $userData
+                    );
+
+                }
+
+                if(count($data) < App::count()){
+                    $existingAppIds = App::pluck('user_name')->toArray();
+
+                    foreach ($existingAppIds as $userName) {
+                        if (!in_array($userName, array_column($data, 'user_name'))) {
+                            // Delete the group
+                            App::where('user_name', $userName)->delete();
+                        }
+                    }
+                }
             }
 
             // Returning only the IDs as JSON response with HTTP status 200
