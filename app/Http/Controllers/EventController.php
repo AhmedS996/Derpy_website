@@ -40,10 +40,32 @@ public function index()
             $eventData['members'] = json_encode($eventData['members']);
             $eventData['event_avatar'] =  env('API_STORAGE') . $eventData['event_avatar'];
 
-            Event::updateOrCreate(
-                ['event_id' => $eventData['event_id']],
-                $eventData
-            );
+
+            if(!isset($eventData['event_id'])){
+                Event::creating(
+                    ['event_id' => $eventData['event_id']],
+                    $eventData
+                );
+
+            }
+            else if(isset($eventData['event_id'])){
+                Event::updating(
+                    ['event_id' => $eventData['event_id']],
+                    $eventData
+                );
+
+            }
+
+            if(count($data) < Event::count()){
+                $existingEventIds = Event::pluck('event_id')->toArray();
+
+                foreach ($existingEventIds as $eventId) {
+                    if (!in_array($eventId, array_column($data, 'event_id'))) {
+                        // Delete the group
+                        Event::where('event_id', $eventId)->delete();
+                    }
+                }
+            }
         }
 
 

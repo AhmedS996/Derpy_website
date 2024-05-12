@@ -30,8 +30,6 @@ class GroupController extends Controller
 
         $data = json_decode($response->getBody(), true);
 
-        // Process the data as needed
-
         // Store the data into the database
         foreach ($data as $groupData) {
             // Convert members and events data to JSON format
@@ -40,10 +38,36 @@ class GroupController extends Controller
 
             $groupData['group_image'] =  env('API_STORAGE') . $groupData['group_image'];
 
-            Group::updateOrCreate(
-                ['group_id' => $groupData['group_id']],
-                $groupData
-            );
+            if(!isset($groupData['group_id'])){
+                Group::creating(
+                    ['group_id' => $groupData['group_id']],
+                    $groupData
+                );
+
+            }
+            else if(isset($groupData['group_id'])){
+                Group::updating(
+                    ['group_id' => $groupData['group_id']],
+                    $groupData
+                );
+
+            }
+
+            if(count($data) < Group::count()){
+                $existingGroupIds = Group::pluck('group_id')->toArray();
+
+                foreach ($existingGroupIds as $groupId) {
+                    if (!in_array($groupId, array_column($data, 'group_id'))) {
+                        // Delete the group
+                        Group::where('group_id', $groupId)->delete();
+                    }
+                }
+            }
+
+
+
+
+
         }
 
         // Returning only the IDs as JSON response with HTTP status 200
