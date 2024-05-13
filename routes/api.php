@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GroupController;
 use Illuminate\Http\Request;
@@ -13,4 +14,5 @@ Route::get('/user', function (Request $request) {
 Route::get('/events', [EventController::class, 'index']);
 Route::get('/groups', [GroupController::class, 'index']);
 Route::get('/users', [AppController::class, 'index']);
+Route::get('/emails', [EmailController::class, 'index']);
 

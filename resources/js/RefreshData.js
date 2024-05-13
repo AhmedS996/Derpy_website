@@ -1,15 +1,19 @@
 function refreshEventData() {
-    fetch("/api/events")
+    fetch("/api/events");
 }
 function refreshGroupData() {
-    fetch("/api/groups")
+    fetch("/api/groups");
 }
 function refreshUserData() {
-    fetch("/api/users")
+    fetch("/api/users");
+}
+function refreshEmailData() {
+    fetch("/api/emails");
 }
 
-window.onload = function() {
+window.onload = function () {
     refreshUserData();
     refreshEventData();
     refreshGroupData();
+    refreshEmailData();
 };
