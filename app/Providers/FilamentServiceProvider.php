@@ -17,7 +17,7 @@ class FilamentServiceProvider extends ServiceProvider
 
         FilamentAsset::register([
             Js::make('RefreshData', __DIR__ . '/../../resources/js/RefreshData.js'),
-]);
+        ]);
     }
 
     /**

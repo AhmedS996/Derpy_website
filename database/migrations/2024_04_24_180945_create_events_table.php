@@ -21,13 +21,13 @@ return new class extends Migration
             $table->text('description',1000);
             $table->string('category');
 
-            $table->string('date');
-            $table->string('time_start');
-            $table->string('time_end');
+            $table->date('date');
+            $table->time('time_start');
+            $table->time('time_end');
 
             $table->string('location');
             $table->json('members')->nullable();
-            $table->integer('number_of_members');
+            $table->string('number_of_members');
 
             $table->string('price');
             $table->boolean('cancel_event');
